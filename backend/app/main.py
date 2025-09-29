@@ -9,13 +9,13 @@ app.include_router(scan.router, prefix="/api/scan", tags=["Scan"])
 app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
 app.include_router(reports.router, prefix="/api/reports", tags=["Reports"])
 
-# Allow your frontend or all origins
+
 origins = [
-    "http://localhost:5173",  # if using Vite frontend
+    "http://localhost:5173",  
     "http://127.0.0.1:5173",
-    "http://localhost:3000",  # React default
+    "http://localhost:3000", 
     "http://127.0.0.1:3000",
-    "*",  # allow all origins (for testing only)
+    "*",  
 ]
 
 app.add_middleware(
