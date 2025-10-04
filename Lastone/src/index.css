@@ -1,0 +1,32 @@
+@import "tailwindcss";
+/* src/index.css */
+
+
+/* Optional: Custom styles (you can add more if needed) */
+body {
+  @apply bg-gray-100 font-sans;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply text-gray-900;
+}
+
+button {
+  @apply transition duration-200 ease-in-out;
+}
+
+a {
+  @apply text-white no-underline hover:underline;
+}
+
+.card {
+  @apply bg-white p-6 rounded-lg shadow-md;
+}
+
+.navbar {
+  @apply bg-gray-900 text-white shadow-md;
+}
+
+.navbar-button {
+  @apply px-4 py-2 rounded-lg hover:bg-gray-700;
+}
