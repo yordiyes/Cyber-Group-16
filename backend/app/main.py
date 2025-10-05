@@ -4,6 +4,11 @@ from app.api import scan, auth, reports
 
 app = FastAPI()
 
+@app.get("/")
+async def root():
+    return {"message": "Vulnerability Scanner Backend is running"}
+
+
 # Include routers
 app.include_router(scan.router, prefix="/api/scan", tags=["Scan"])
 app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
