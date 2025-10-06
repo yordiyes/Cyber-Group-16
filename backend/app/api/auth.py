@@ -10,29 +10,20 @@ class User(BaseModel):
     username: str
     password: str
 
+@router.post("/register")
+async def register(user: User):
+    if users_collection.find_one({"username": user.username}):
+        raise HTTPException(status_code=400, detail="User exists")
+    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt())
+    users_collection.insert_one({"username": user.username, "password": hashed_pw})
+    return {"message": "User registered"}
+
+
 @router.post("/login")
 async def login(user: User):
-    try:
-        db_user = users_collection.find_one({"username": user.username})
-        if not db_user:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
-
-        # Ensure stored password is bytes
-        stored_password = db_user["password"]
-        if isinstance(stored_password, str):
-            stored_password = stored_password.encode()
-
-        if not bcrypt.checkpw(user.password.encode(), stored_password):
-            raise HTTPException(status_code=401, detail="Invalid credentials")
-
-        if not settings.JWT_SECRET:
-            raise HTTPException(status_code=500, detail="Server misconfiguration")
-
-        token = jwt.encode({"username": user.username}, settings.JWT_SECRET, algorithm="HS256")
-        return {"access_token": token}
-
-    except HTTPException:
-        raise  # re-raise known HTTP errors
-    except Exception as e:
-        print("Login error:", e)  # log the error for debugging
-        raise HTTPException(status_code=500, detail="Internal server error")
+    db_user = users_collection.find_one({"username": user.username})
+    if not db_user or not bcrypt.checkpw(user.password.encode(), db_user["password"]):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    token = jwt.encode({"username": user.username}, settings.JWT_SECRET, algorithm="HS256")
+    return {"access_token": token}
