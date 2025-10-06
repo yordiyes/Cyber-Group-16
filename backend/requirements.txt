@@ -1,9 +1,11 @@
-fastapi
+fastapi==0.118.0
 uvicorn[standard]
 motor
 python-dotenv
-pydantic
 bcrypt
-PyJWT
-httpx
-requests
+PyJWT==2.10.1
+httpx==0.28.1
+pydantic==2.11.10
+pydantic-settings==1.1.0
+pymongo==4.15.2
+requests==2.32.5
