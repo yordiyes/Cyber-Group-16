@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const navigate = useNavigate();
   const [profileOpen, setProfileOpen] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setProfileOpen(false);
+    navigate("/login");
+  };
 
   const linksToShow = [
     { name: "Home", path: "/home" },
@@ -17,14 +24,23 @@ const Navbar = ({ isLoggedIn }) => {
     { name: "Contact Us", path: "/contact" },
     ...(!isLoggedIn
       ? [{ name: "Login / Signup", path: "/login" }]
-      : [{ name: "Profile", path: "#", onClick: () => setProfileOpen(!profileOpen) }]),
+      : [
+          {
+            name: "Profile",
+            path: "#",
+            onClick: () => setProfileOpen(!profileOpen),
+          },
+        ]),
   ];
 
   return (
-    <nav className="text-white shadow-md sticky top-0 z-50" style={{ backgroundColor: "#8B5E3C" }}>
+    <nav
+      className="text-white shadow-md sticky top-0 z-50"
+      style={{ backgroundColor: "#8B5E3C" }}
+    >
       <div className="w-full px-4 relative">
         <div className="flex items-center h-24 relative">
-          {/* Logo with forward/back animation */}
+          {/* Logo */}
           <div
             className="flex-shrink-0 cursor-pointer animate-logo-forward-back"
             onClick={() => navigate("/home")}
@@ -48,20 +64,30 @@ const Navbar = ({ isLoggedIn }) => {
                     {link.name} ▼
                   </button>
 
+                  {/* Profile dropdown */}
                   {profileOpen && (
                     <div className="absolute right-0 mt-2 w-44 bg-[#5C3A21] text-white rounded-md shadow-lg py-2 z-50 border border-[#422A17]">
                       <Link
                         to="/profile"
                         className="block px-4 py-2 hover:bg-[#7A5031] transition"
+                        onClick={() => setProfileOpen(false)}
                       >
                         My Profile
                       </Link>
                       <Link
                         to="/settings"
                         className="block px-4 py-2 hover:bg-[#7A5031] transition"
+                        onClick={() => setProfileOpen(false)}
                       >
                         Settings
                       </Link>
+                      {/* ✅ Logout Button */}
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-2 hover:bg-[#7A5031] transition text-red-300"
+                      >
+                        Logout
+                      </button>
                     </div>
                   )}
                 </div>
@@ -85,14 +111,15 @@ const Navbar = ({ isLoggedIn }) => {
             )}
           </div>
 
-          {/* Mobile menu */}
+          {/* Mobile menu button */}
           <div className="md:hidden ml-auto mr-4">
-            <button className="p-2 border rounded hover:bg-white/20 text-black">☰</button>
+            <button className="p-2 border rounded hover:bg-white/20 text-black">
+              ☰
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Tailwind custom animation */}
       <style>
         {`
           @keyframes logo-forward-back {

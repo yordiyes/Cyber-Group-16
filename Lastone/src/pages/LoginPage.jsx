@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import apiClient from "../utils/apiClient"; // ✅ backend connection
+import apiClient from "../utils/apiClient"; 
 
 const infoTexts = [
   "Scan your web apps for vulnerabilities in seconds.",
@@ -9,7 +9,7 @@ const infoTexts = [
   "Empowering developers to build secure apps.",
 ];
 
-const LoginPage = () => {
+const LoginPage = ({ setIsLoggedIn }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +28,7 @@ const LoginPage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // 🧠 Login Handler (connected to backend)
+  // Login Handler (connected to backend)
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -36,16 +36,20 @@ const LoginPage = () => {
         username: email,
         password: password,
       });
+
       localStorage.setItem("token", response.data.access_token);
+      setIsLoggedIn(true); // <-- add this line
+
       setSuccessMessage("Login successful! Redirecting...");
       setShowSuccess(true);
+
       setTimeout(() => {
         setShowSuccess(false);
         navigate("/home");
       }, 2000);
     } catch (error) {
       console.error("Login error:", error.response || error);
-      alert("Invalid credentials!");
+      // alert("Invalid credentials!");
     }
   };
 
@@ -75,7 +79,10 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row" style={{ backgroundColor: "#4B2E2A" }}>
+    <div
+      className="min-h-screen flex flex-col md:flex-row"
+      style={{ backgroundColor: "#4B2E2A" }}
+    >
       {/* Left side - Info panel */}
       <div className="hidden md:flex md:w-1/2 relative flex-col justify-center items-center p-10 overflow-hidden">
         <div
@@ -86,7 +93,9 @@ const LoginPage = () => {
           }}
         ></div>
 
-        <h1 className="text-4xl font-bold mb-4 text-yellow-200 z-10">Welcome to ጋሻ Scanners</h1>
+        <h1 className="text-4xl font-bold mb-4 text-yellow-200 z-10">
+          Welcome to ጋሻ Scanners
+        </h1>
         <p className="text-lg text-center leading-relaxed mb-6 text-yellow-100 z-10">
           {infoTexts[currentInfo]}
         </p>
