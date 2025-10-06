@@ -1,159 +1,235 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../utils/apiClient"; // ✅ backend connection
+
+const infoTexts = [
+  "Scan your web apps for vulnerabilities in seconds.",
+  "Identify security issues before attackers do.",
+  "Protect your users and maintain trust.",
+  "Empowering developers to build secure apps.",
+];
 
 const LoginPage = () => {
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showSignup, setShowSignup] = useState(false);
-
-  const [signupEmail, setSignupEmail] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
-  const [signupConfirm, setSignupConfirm] = useState("");
+  const [name, setName] = useState("");
+  const [currentInfo, setCurrentInfo] = useState(0);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const navigate = useNavigate();
 
-  // Handle login
-  const handleLogin = (e) => {
+  // 🔁 Rotating left-side info text
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentInfo((prev) => (prev + 1) % infoTexts.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // 🧠 Login Handler (connected to backend)
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (password === "admin") {
-      navigate("/"); // navigate to Dashboard
-    } else {
+    try {
+      const response = await apiClient.post("/auth/login", {
+        username: email,
+        password: password,
+      });
+      localStorage.setItem("token", response.data.access_token);
+      setSuccessMessage("Login successful! Redirecting...");
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+        navigate("/home");
+      }, 2000);
+    } catch (error) {
+      console.error("Login error:", error.response || error);
       alert("Invalid credentials!");
     }
   };
 
-  // Handle signup
-  const handleSignup = (e) => {
+  // 🧠 Signup Handler (connected to backend)
+  const handleSignup = async (e) => {
     e.preventDefault();
-    if (signupPassword !== signupConfirm) {
-      alert("Passwords do not match!");
-      return;
+    try {
+      await apiClient.post("/auth/register", {
+        username: email,
+        password: password,
+      });
+      setSuccessMessage("Account created successfully!");
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+        setIsLogin(true);
+      }, 2000);
+    } catch (error) {
+      console.error("Signup error:", error.response || error);
+      alert("Signup failed!");
     }
-    alert(`Account created for ${signupEmail}!`);
-    setShowSignup(false);
-    setSignupEmail("");
-    setSignupPassword("");
-    setSignupConfirm("");
+  };
+
+  // 🌐 Social login placeholder
+  const handleSocialLogin = (provider) => {
+    alert(`Social login with ${provider} coming soon!`);
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Navbar */}
-      <nav className="bg-gray-800 text-white shadow-md">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex justify-between items-center h-16">
-            <div className="text-2xl font-bold">VulnScanner</div>
-            <div className="hidden md:flex space-x-8">
-              <Link to="/" className="hover:text-blue-400 transition font-semibold">
-                Dashboard
-              </Link>
-              <Link to="/scanners" className="hover:text-blue-400 transition font-semibold">
-                Scanners
-              </Link>
-              <Link to="/about" className="hover:text-blue-400 transition font-semibold">
-                About Us
-              </Link>
-              <button
-                onClick={() => setShowSignup(true)}
-                className="hover:text-blue-400 transition font-semibold"
-              >
-                Sign Up
-              </button>
-            </div>
-            <div className="md:hidden">
-              <button>Menu</button>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen flex flex-col md:flex-row" style={{ backgroundColor: "#4B2E2A" }}>
+      {/* Left side - Info panel */}
+      <div className="hidden md:flex md:w-1/2 relative flex-col justify-center items-center p-10 overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(45deg, rgba(255,215,0,0.05) 0 2px, transparent 2px 20px), repeating-linear-gradient(-45deg, rgba(255,215,0,0.03) 0 2px, transparent 2px 20px)",
+          }}
+        ></div>
 
-      {/* Login Form */}
-      <div className="flex items-center justify-center flex-grow bg-gray-100">
-        <form
-          onSubmit={handleLogin}
-          className="bg-white p-8 rounded shadow-md w-80 hover:shadow-xl transition"
-        >
-          <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Login</h2>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border px-3 py-2 mb-3 rounded focus:ring-2 focus:ring-blue-400"
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border px-3 py-2 mb-3 rounded focus:ring-2 focus:ring-blue-400"
-            required
-          />
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded mb-4 hover:bg-blue-700 transition font-semibold"
-          >
-            Login
-          </button>
-          <p className="text-center text-gray-600 text-sm">
-            Don't have an account?{" "}
-            <button
-              type="button"
-              onClick={() => setShowSignup(true)}
-              className="text-blue-600 font-bold hover:underline"
-            >
-              Sign Up
-            </button>
-          </p>
-        </form>
+        <h1 className="text-4xl font-bold mb-4 text-yellow-200 z-10">Welcome to ጋሻ Scanners</h1>
+        <p className="text-lg text-center leading-relaxed mb-6 text-yellow-100 z-10">
+          {infoTexts[currentInfo]}
+        </p>
+
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png"
+          alt="Security illustration"
+          className="w-48 h-48 mt-4 z-10"
+          style={{ animation: "floatHero 6s ease-in-out infinite" }}
+        />
+
+        <style>{`
+          @keyframes floatHero {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+          }
+        `}</style>
       </div>
 
-      {/* Signup Modal */}
-      {showSignup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded shadow-lg p-8 w-96 relative">
+      {/* Right side - Login/Signup form */}
+      <div className="w-full md:w-1/2 flex justify-center items-center p-6">
+        <div className="bg-[#FDF1E3] shadow-2xl rounded-2xl p-10 w-11/12 sm:w-3/4 md:w-2/3">
+          {/* Tabs */}
+          <div className="flex justify-center mb-8 border-b border-yellow-400">
             <button
-              className="absolute top-2 right-3 text-gray-500 text-xl font-bold hover:text-gray-800"
-              onClick={() => setShowSignup(false)}
+              onClick={() => setIsLogin(true)}
+              className={`px-6 py-2 font-semibold ${
+                isLogin
+                  ? "border-b-4 border-yellow-500 text-yellow-700"
+                  : "text-gray-600 hover:text-yellow-700"
+              }`}
             >
-              &times;
+              Login
             </button>
-            <h2 className="text-2xl font-extrabold mb-6 text-center text-blue-800">
+            <button
+              onClick={() => setIsLogin(false)}
+              className={`px-6 py-2 font-semibold ${
+                !isLogin
+                  ? "border-b-4 border-yellow-500 text-yellow-700"
+                  : "text-gray-600 hover:text-yellow-700"
+              }`}
+            >
               Sign Up
-            </h2>
-            <form onSubmit={handleSignup} className="space-y-3">
+            </button>
+          </div>
+
+          <form
+            onSubmit={isLogin ? handleLogin : handleSignup}
+            className="space-y-5"
+          >
+            {!isLogin && (
+              <div>
+                <label className="block text-gray-700 font-semibold mb-1">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your full name"
+                  className="w-full p-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+                />
+              </div>
+            )}
+
+            <div>
+              <label className="block text-gray-700 font-semibold mb-1">
+                Email Address
+              </label>
               <input
                 type="email"
-                placeholder="Email"
-                value={signupEmail}
-                onChange={(e) => setSignupEmail(e.target.value)}
-                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-600"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full p-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
                 required
               />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-semibold mb-1">
+                Password
+              </label>
               <input
                 type="password"
-                placeholder="Password"
-                value={signupPassword}
-                onChange={(e) => setSignupPassword(e.target.value)}
-                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-600"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="w-full p-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
                 required
               />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                value={signupConfirm}
-                onChange={(e) => setSignupConfirm(e.target.value)}
-                className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-600"
-                required
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-yellow-500 text-[#4B2E2A] font-semibold py-3 rounded-lg hover:bg-yellow-600 transition"
+            >
+              {isLogin ? "Login" : "Sign Up"}
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="my-4 flex items-center">
+            <hr className="flex-grow border-yellow-200" />
+            <span className="px-3 text-gray-600 text-sm">or continue with</span>
+            <hr className="flex-grow border-yellow-200" />
+          </div>
+
+          {/* Social login */}
+          <div className="flex gap-4 mb-4">
+            <button
+              onClick={() => handleSocialLogin("Google")}
+              className="flex-1 border border-yellow-300 rounded-lg py-2 flex items-center justify-center hover:bg-yellow-50 transition"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                alt="Google"
+                className="w-5 h-5 mr-2"
               />
-              <button
-                type="submit"
-                className="w-full bg-blue-700 text-white py-2 rounded hover:bg-blue-800 font-bold transition"
-              >
-                Create Account
-              </button>
-            </form>
+              Google
+            </button>
+
+            <button
+              onClick={() => handleSocialLogin("Microsoft")}
+              className="flex-1 border border-yellow-300 rounded-lg py-2 flex items-center justify-center hover:bg-yellow-50 transition"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+                alt="Microsoft"
+                className="w-5 h-5 mr-2"
+              />
+              Microsoft
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ Success Modal */}
+      {showSuccess && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-green-100 border border-green-500 text-green-700 p-6 rounded shadow-lg w-80 text-center">
+            {successMessage}
           </div>
         </div>
       )}
