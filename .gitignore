@@ -1,0 +1,31 @@
+# --- Environment variables ---
+.env
+*.env
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# --- Virtual environments ---
+.venv/
+venv/
+ENV/
+env/
+*.egg-info/
+.eggs/
+
+# --- IDE / Editor files ---
+.vscode/
+.idea/
+*.swp
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- Reports / Generated files ---
+reports/
