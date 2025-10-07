@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../utils/apiClient"; 
 
+
 const infoTexts = [
   "Scan your web apps for vulnerabilities in seconds.",
   "Identify security issues before attackers do.",
@@ -18,9 +19,9 @@ const LoginPage = ({ setIsLoggedIn }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  const navigate = useNavigate();
+  const [users, setUsers] = useState([]); // Store signup users locally
 
-  // 🔁 Rotating left-side info text
+  // Rotating left-side info text
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentInfo((prev) => (prev + 1) % infoTexts.length);
@@ -53,37 +54,33 @@ const LoginPage = ({ setIsLoggedIn }) => {
     }
   };
 
-  // 🧠 Signup Handler (connected to backend)
-  const handleSignup = async (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
-    try {
-      await apiClient.post("/auth/register", {
-        username: email,
-        password: password,
-      });
-      setSuccessMessage("Account created successfully!");
-      setShowSuccess(true);
-      setTimeout(() => {
-        setShowSuccess(false);
-        setIsLogin(true);
-      }, 2000);
-    } catch (error) {
-      console.error("Signup error:", error.response || error);
-      alert("Signup failed!");
+    if (!name || !email || !password) {
+      alert("Please fill in all fields!");
+      return;
     }
-  };
-
-  // 🌐 Social login placeholder
-  const handleSocialLogin = (provider) => {
-    alert(`Social login with ${provider} coming soon!`);
+    const userExists = users.find((u) => u.email === email);
+    if (userExists) {
+      alert("User already exists!");
+      return;
+    }
+    setUsers([...users, { name, email, password }]);
+    setSuccessMessage("Account created successfully!");
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+      setIsLogin(true);
+    }, 2000);
+    setName("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col md:flex-row"
-      style={{ backgroundColor: "#4B2E2A" }}
-    >
-      {/* Left side - Info panel */}
+
+    <div className="min-h-screen flex flex-col md:flex-row" style={{ backgroundColor: "#4B2E2A" }}>
+      {/* Left info panel */}
       <div className="hidden md:flex md:w-1/2 relative flex-col justify-center items-center p-10 overflow-hidden">
         <div
           className="absolute inset-0"
@@ -99,14 +96,12 @@ const LoginPage = ({ setIsLoggedIn }) => {
         <p className="text-lg text-center leading-relaxed mb-6 text-yellow-100 z-10">
           {infoTexts[currentInfo]}
         </p>
-
         <img
           src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png"
           alt="Security illustration"
           className="w-48 h-48 mt-4 z-10"
           style={{ animation: "floatHero 6s ease-in-out infinite" }}
         />
-
         <style>{`
           @keyframes floatHero {
             0% { transform: translateY(0px); }
@@ -116,56 +111,41 @@ const LoginPage = ({ setIsLoggedIn }) => {
         `}</style>
       </div>
 
-      {/* Right side - Login/Signup form */}
+      {/* Right form panel */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-6">
         <div className="bg-[#FDF1E3] shadow-2xl rounded-2xl p-10 w-11/12 sm:w-3/4 md:w-2/3">
           {/* Tabs */}
           <div className="flex justify-center mb-8 border-b border-yellow-400">
             <button
               onClick={() => setIsLogin(true)}
-              className={`px-6 py-2 font-semibold ${
-                isLogin
-                  ? "border-b-4 border-yellow-500 text-yellow-700"
-                  : "text-gray-600 hover:text-yellow-700"
-              }`}
+              className={`px-6 py-2 font-semibold ${isLogin ? "border-b-4 border-yellow-500 text-yellow-700" : "text-gray-600 hover:text-yellow-700"}`}
             >
               Login
             </button>
             <button
               onClick={() => setIsLogin(false)}
-              className={`px-6 py-2 font-semibold ${
-                !isLogin
-                  ? "border-b-4 border-yellow-500 text-yellow-700"
-                  : "text-gray-600 hover:text-yellow-700"
-              }`}
+              className={`px-6 py-2 font-semibold ${!isLogin ? "border-b-4 border-yellow-500 text-yellow-700" : "text-gray-600 hover:text-yellow-700"}`}
             >
               Sign Up
             </button>
           </div>
 
-          <form
-            onSubmit={isLogin ? handleLogin : handleSignup}
-            className="space-y-5"
-          >
+          <form onSubmit={isLogin ? handleLogin : handleSignup} className="space-y-5">
             {!isLogin && (
               <div>
-                <label className="block text-gray-700 font-semibold mb-1">
-                  Full Name
-                </label>
+                <label className="block text-gray-700 font-semibold mb-1">Full Name</label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your full name"
                   className="w-full p-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+                  required
                 />
               </div>
             )}
-
             <div>
-              <label className="block text-gray-700 font-semibold mb-1">
-                Email Address
-              </label>
+              <label className="block text-gray-700 font-semibold mb-1">Email Address</label>
               <input
                 type="email"
                 value={email}
@@ -175,11 +155,8 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 required
               />
             </div>
-
             <div>
-              <label className="block text-gray-700 font-semibold mb-1">
-                Password
-              </label>
+              <label className="block text-gray-700 font-semibold mb-1">Password</label>
               <input
                 type="password"
                 value={password}
@@ -189,7 +166,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 required
               />
             </div>
-
             <button
               type="submit"
               className="w-full bg-yellow-500 text-[#4B2E2A] font-semibold py-3 rounded-lg hover:bg-yellow-600 transition"
@@ -198,50 +174,14 @@ const LoginPage = ({ setIsLoggedIn }) => {
             </button>
           </form>
 
-          {/* Divider */}
-          <div className="my-4 flex items-center">
-            <hr className="flex-grow border-yellow-200" />
-            <span className="px-3 text-gray-600 text-sm">or continue with</span>
-            <hr className="flex-grow border-yellow-200" />
-          </div>
-
-          {/* Social login */}
-          <div className="flex gap-4 mb-4">
-            <button
-              onClick={() => handleSocialLogin("Google")}
-              className="flex-1 border border-yellow-300 rounded-lg py-2 flex items-center justify-center hover:bg-yellow-50 transition"
-            >
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-                alt="Google"
-                className="w-5 h-5 mr-2"
-              />
-              Google
-            </button>
-
-            <button
-              onClick={() => handleSocialLogin("Microsoft")}
-              className="flex-1 border border-yellow-300 rounded-lg py-2 flex items-center justify-center hover:bg-yellow-50 transition"
-            >
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
-                alt="Microsoft"
-                className="w-5 h-5 mr-2"
-              />
-              Microsoft
-            </button>
-          </div>
+          {/* Success message */}
+          {showSuccess && (
+            <div className="mt-4 text-green-700 text-center font-semibold">
+              {successMessage}
+            </div>
+          )}
         </div>
       </div>
-
-      {/* ✅ Success Modal */}
-      {showSuccess && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-green-100 border border-green-500 text-green-700 p-6 rounded shadow-lg w-80 text-center">
-            {successMessage}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

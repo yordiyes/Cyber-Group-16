@@ -7,6 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
+// Pages
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ScannersPage from "./pages/ScannersPage";
@@ -15,6 +16,9 @@ import BanksScannerPage from "./pages/BanksScannerPage";
 import ECommerceScannerPage from "./pages/ECommerceScannerPage";
 import ReportsPage from "./pages/ReportsPage";
 import Services from "./pages/Services";
+import ContactPage from "./pages/ContactPage"; // Keep from frontend branch
+
+// Components
 import Navbar from "./components/Navbar";
 
 const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
@@ -27,7 +31,7 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
         <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       )}
       <Routes>
-        {/* Public routes */}
+        {/* 🌍 Public routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route
@@ -35,8 +39,9 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
           element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
         />
         <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<ContactPage />} /> {/* Added contact */}
 
-        {/* Protected routes */}
+        {/* 🔒 Protected routes */}
         <Route
           path="/scanners"
           element={isLoggedIn ? <ScannersPage /> : <Navigate to="/login" />}
@@ -69,7 +74,7 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // ✅ Load login state from localStorage on first render
+  // Load login state from localStorage on first render
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -77,7 +82,7 @@ const App = () => {
     }
   }, []);
 
-  // ✅ Optional: listen for logout
+  // Logout handler
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
