@@ -97,6 +97,9 @@ const ContactPage = () => {
           </button>
         </form>
       </div>
+        <footer className="bg-[#2b150f] text-white py-4 mt-16 relative z-10 text-center text-sm">
+        &copy; {new Date().getFullYear()} ጋሻ. All rights reserved.
+      </footer>
     </section>
   );
 };
