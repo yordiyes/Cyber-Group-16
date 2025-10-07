@@ -9,7 +9,8 @@ import WebAppsScannerPage from "./pages/WebAppsScannerPage";
 import BanksScannerPage from "./pages/BanksScannerPage";
 import ECommerceScannerPage from "./pages/ECommerceScannerPage";
 import ReportsPage from "./pages/ReportsPage";
-import Services from "./pages/Services"; // ✅ Import your Services page
+import Services from "./pages/Services"; 
+import ContactPage from "./pages/ContactPage"; // ✅ Added Contact page import
 
 // Components
 import Navbar from "./components/Navbar";
@@ -28,7 +29,8 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/services" element={<Services />} /> {/* ✅ Added route for Services */}
+        <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<ContactPage />} /> {/* ✅ Contact page route */}
 
         {/* Protected Routes */}
         <Route
