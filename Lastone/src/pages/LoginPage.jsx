@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import apiClient from "../utils/apiClient"; 
-
+import apiClient from "../utils/apiClient";
 
 const infoTexts = [
   "Scan your web apps for vulnerabilities in seconds.",
@@ -11,6 +10,7 @@ const infoTexts = [
 ];
 
 const LoginPage = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate(); // ✅ Add this line
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,9 +19,8 @@ const LoginPage = ({ setIsLoggedIn }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  const [users, setUsers] = useState([]); // Store signup users locally
+  const [users, setUsers] = useState([]);
 
-  // Rotating left-side info text
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentInfo((prev) => (prev + 1) % infoTexts.length);
@@ -29,7 +28,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
     return () => clearInterval(interval);
   }, []);
 
-  // Login Handler (connected to backend)
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -39,18 +37,19 @@ const LoginPage = ({ setIsLoggedIn }) => {
       });
 
       localStorage.setItem("token", response.data.access_token);
-      setIsLoggedIn(true); // <-- add this line
+      setIsLoggedIn(true);
 
       setSuccessMessage("Login successful! Redirecting...");
       setShowSuccess(true);
 
+      // ✅ Navigate after short delay
       setTimeout(() => {
         setShowSuccess(false);
         navigate("/home");
-      }, 2000);
+      }, 1500);
     } catch (error) {
       console.error("Login error:", error.response || error);
-      // alert("Invalid credentials!");
+      alert("Invalid credentials!");
     }
   };
 
@@ -78,8 +77,10 @@ const LoginPage = ({ setIsLoggedIn }) => {
   };
 
   return (
-
-    <div className="min-h-screen flex flex-col md:flex-row" style={{ backgroundColor: "#4B2E2A" }}>
+    <div
+      className="min-h-screen flex flex-col md:flex-row"
+      style={{ backgroundColor: "#4B2E2A" }}
+    >
       {/* Left info panel */}
       <div className="hidden md:flex md:w-1/2 relative flex-col justify-center items-center p-10 overflow-hidden">
         <div
@@ -118,22 +119,35 @@ const LoginPage = ({ setIsLoggedIn }) => {
           <div className="flex justify-center mb-8 border-b border-yellow-400">
             <button
               onClick={() => setIsLogin(true)}
-              className={`px-6 py-2 font-semibold ${isLogin ? "border-b-4 border-yellow-500 text-yellow-700" : "text-gray-600 hover:text-yellow-700"}`}
+              className={`px-6 py-2 font-semibold ${
+                isLogin
+                  ? "border-b-4 border-yellow-500 text-yellow-700"
+                  : "text-gray-600 hover:text-yellow-700"
+              }`}
             >
               Login
             </button>
             <button
               onClick={() => setIsLogin(false)}
-              className={`px-6 py-2 font-semibold ${!isLogin ? "border-b-4 border-yellow-500 text-yellow-700" : "text-gray-600 hover:text-yellow-700"}`}
+              className={`px-6 py-2 font-semibold ${
+                !isLogin
+                  ? "border-b-4 border-yellow-500 text-yellow-700"
+                  : "text-gray-600 hover:text-yellow-700"
+              }`}
             >
               Sign Up
             </button>
           </div>
 
-          <form onSubmit={isLogin ? handleLogin : handleSignup} className="space-y-5">
+          <form
+            onSubmit={isLogin ? handleLogin : handleSignup}
+            className="space-y-5"
+          >
             {!isLogin && (
               <div>
-                <label className="block text-gray-700 font-semibold mb-1">Full Name</label>
+                <label className="block text-gray-700 font-semibold mb-1">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   value={name}
@@ -145,7 +159,9 @@ const LoginPage = ({ setIsLoggedIn }) => {
               </div>
             )}
             <div>
-              <label className="block text-gray-700 font-semibold mb-1">Email Address</label>
+              <label className="block text-gray-700 font-semibold mb-1">
+                Email Address
+              </label>
               <input
                 type="email"
                 value={email}
@@ -156,7 +172,9 @@ const LoginPage = ({ setIsLoggedIn }) => {
               />
             </div>
             <div>
-              <label className="block text-gray-700 font-semibold mb-1">Password</label>
+              <label className="block text-gray-700 font-semibold mb-1">
+                Password
+              </label>
               <input
                 type="password"
                 value={password}
@@ -174,7 +192,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
             </button>
           </form>
 
-          {/* Success message */}
           {showSuccess && (
             <div className="mt-4 text-green-700 text-center font-semibold">
               {successMessage}

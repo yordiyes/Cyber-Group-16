@@ -28,7 +28,6 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           {
             name: "Profile",
             path: "#",
-            onClick: () => setProfileOpen(!profileOpen),
           },
         ]),
   ];
@@ -55,50 +54,52 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           {/* Desktop links */}
           <div className="hidden md:flex items-center absolute left-1/2 transform -translate-x-1/5 gap-8">
             {linksToShow.map((link, idx) =>
-              link.onClick && link.name === "Profile" ? (
-                <div key={idx} className="relative">
-                  <button
-                    onClick={link.onClick}
-                    className="hover:text-yellow-300 font-semibold transition text-lg flex items-center gap-1"
-                  >
-                    {link.name} ▼
+              link.name === "Profile" ? (
+                <div
+                  key={idx}
+                  className="relative group"
+                  onMouseEnter={() => setProfileOpen(true)}
+                  onMouseLeave={() => setProfileOpen(false)}
+                >
+                  <button className="hover:text-yellow-300 font-semibold transition text-lg flex items-center gap-1 cursor-pointer">
+                    {link.name}{" "}
+                    <span
+                      className={`transition-transform duration-300 ${
+                        profileOpen ? "rotate-180" : "rotate-0"
+                      }`}
+                    >
+                      ▼
+                    </span>
                   </button>
 
                   {/* Profile dropdown */}
-                  {profileOpen && (
-                    <div className="absolute right-0 mt-2 w-44 bg-[#5C3A21] text-white rounded-md shadow-lg py-2 z-50 border border-[#422A17]">
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 hover:bg-[#7A5031] transition"
-                        onClick={() => setProfileOpen(false)}
-                      >
-                        My Profile
-                      </Link>
-                      <Link
-                        to="/settings"
-                        className="block px-4 py-2 hover:bg-[#7A5031] transition"
-                        onClick={() => setProfileOpen(false)}
-                      >
-                        Settings
-                      </Link>
-                      {/* ✅ Logout Button */}
-                      <button
-                        onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 hover:bg-[#7A5031] transition text-red-300"
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  )}
+                  <div
+                    className={`absolute right-0 mt-2 w-44 bg-[#5C3A21] text-white rounded-md shadow-lg py-2 z-50 border border-[#422A17] transition-all duration-200 ${
+                      profileOpen
+                        ? "opacity-100 visible translate-y-0"
+                        : "opacity-0 invisible translate-y-2"
+                    }`}
+                  >
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 hover:bg-[#7A5031] transition"
+                    >
+                      My Profile
+                    </Link>
+                    <Link
+                      to="/settings"
+                      className="block px-4 py-2 hover:bg-[#7A5031] transition"
+                    >
+                      Settings
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 hover:bg-[#7A5031] transition text-red-300"
+                    >
+                      Logout
+                    </button>
+                  </div>
                 </div>
-              ) : link.onClick ? (
-                <button
-                  key={idx}
-                  onClick={link.onClick}
-                  className="hover:text-yellow-300 font-semibold transition text-lg"
-                >
-                  {link.name}
-                </button>
               ) : (
                 <Link
                   key={idx}
