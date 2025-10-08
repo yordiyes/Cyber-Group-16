@@ -1,19 +1,23 @@
 import axios from "axios";
 
+// Use VITE_ prefix for environment variables
 const apiClient = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// set auth header from localStorage (applies at import time)
+// Debug: check base URL
+console.log("API Base URL:", import.meta.env.VITE_API_BASE_URL);
+
+// Set auth header from localStorage at import time
 const token = localStorage.getItem("token");
 if (token) {
   apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
 
-// optional: an interceptor that always reads the latest token from localStorage
+// Optional: interceptor to always use latest token
 apiClient.interceptors.request.use((config) => {
   const latestToken = localStorage.getItem("token");
   if (latestToken) {
