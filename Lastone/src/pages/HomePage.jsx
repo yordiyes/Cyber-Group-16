@@ -46,7 +46,7 @@ const Homepage = () => {
   return (
     <div
       className="flex flex-col min-h-screen"
-      style={{ backgroundColor: "#1a0e0c", position: "relative" }}
+      style={{ backgroundColor: "#6F4E37", position: "relative" }}
     >
       {/* Animated background + floating hero */}
       <style>{`
@@ -87,266 +87,229 @@ const Homepage = () => {
         {/* Hero Section */}
       <section
   className="grid grid-cols-1 md:grid-cols-2 items-center gap-16 mt-32 rounded-lg p-8"
-  style={{ backgroundColor: "#4B2E2E" }} // Habeshawi dark brown
+  style={{ backgroundColor: "#6F4E37" }} // Habeshawi dark brown
 >
   {/* Left: Text content */}
   <div className="space-y-8">
     <h1 className="text-5xl font-extrabold text-[#F0E4D7]">
-      Protect Your Web Applications
+    ጋሻ Scanners
     </h1>
     <p className="text-lg leading-relaxed max-w-xl text-[#E6D7C1]">
       Scan your web apps for vulnerabilities before attackers do. Identify weak spots,
       misconfigurations, and potential exploits, and take action to secure your systems.
     </p>
-    <button className="px-6 py-3 bg-[#A95A3C] hover:bg-[#C75C3D] text-white font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105">
-      🚀 Get Started
-    </button>
+   
   </div>
 
   {/* Right: Illustration */}
-  <div className="flex justify-center relative">
+  {/* Right: Illustration */}
+{/* Right: Illustration */}
+{/* Right: Illustration */}
+{/* Right: Illustration */}
+{/* Right: Illustration */}
+{/* Right: Illustration */}
+<div className="flex justify-center relative w-full">
+  <a 
+    href="https://imgbb.com/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="w-full flex justify-center"
+  >
     <img
-      src="https://i.postimg.cc/ZnbXhMKB/Pokecut-1759577444370.png"
-      alt="Dashboard Illustration"
-      className="rounded-lg shadow-2xl w-full max-w-lg md:max-w-xl lg:max-w-2xl floating-hero transition-transform transform hover:scale-105 hover:rotate-1"
+      src="https://i.ibb.co/Y7Ch6fNL/oooo.png"
+      alt="Illustration"
+      className="w-full md:w-3/4 lg:w-4/5 floating-hero transition-transform transform hover:scale-105 hover:rotate-1"
     />
-    {/* Optional: subtle floating effect */}
-    <style>{`
-      .floating-hero {
-        animation: float 4s ease-in-out infinite;
-      }
-      @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-15px); }
-      }
-    `}</style>
-  </div>
+  </a>
+
+  {/* Optional: subtle floating effect */}
+  <style>{`
+    .floating-hero {
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+  `}</style>
+</div>
+
+
+
+
+
 </section>
 
-        {/* Production-Grade Safety */}
-        <section className="rounded-lg shadow-2xl p-8 bg-[#4B2E2E] text-white">
-  <header className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-    <div>
-      <h2 className="text-2xl md:text-3xl font-extrabold text-[#F0E4D7]">Production-Grade Safety</h2>
-      <p className="text-[#E6D7C1] mt-1 max-w-xl">
-        Safety-first scanning: production-safe checks, strict controls, and secure evidence handling
-        so your ops remain stable and auditable.
-      </p>
+  <section className="max-w-7xl mx-auto p-8 space-y-12 font-sans">
+
+  {/* Hero */}
+  <div className="bg-[#6F4E37] rounded-xl shadow-lg p-10 text-white text-center border-2 border-[#A95A3C]">
+   
+    <p className="text-[#E6D7C1] max-w-3xl mx-auto mb-6 text-lg md:text-xl leading-relaxed">
+      Enterprise-ready web vulnerability scanner with production-safe heuristics, advanced tool integration, and strict safety controls.
+    </p>
+    <div className="flex flex-wrap justify-center gap-4 mt-4">
+      <span className="px-4 py-2 bg-[#593127] rounded-full text-[#E6D7C1] border border-[#A95A3C]">Enterprise Ready</span>
+      <span className="px-4 py-2 bg-[#A95A3C] rounded-full text-white border border-white">Production-Safe</span>
+      <span className="px-4 py-2 bg-[#4B2E2E] rounded-full text-[#E6D7C1] border border-[#A95A3C]">Advanced Tools</span>
     </div>
+  </div>
 
-    <div className="mt-4 md:mt-0 flex items-center gap-3">
-      <span className="px-3 py-1 text-xs bg-green-700 rounded-full font-medium text-white">Production-safe</span>
-      <span className="px-3 py-1 text-xs bg-[#593127] rounded-full text-[#E6D7C1]">Audit-ready</span>
-    </div>
-  </header>
+  {/* Features Grid */}
+  <h2 className="text-3xl font-bold text-center text-[#F0E4D7] mb-6">What We Do</h2>
 
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {[
+      {
+        title: "Core Vulnerability Detection",
+        items: [
+          "SQL Injection - Safe payloads & context analysis",
+          "Cross-Site Scripting (XSS) - Reflected detection",
+          "Security Headers - TLS & headers validation",
+          "CSRF Protection - Automated state-changing checks",
+          "IDOR Testing - Direct object reference checks",
+          "SSRF Detection - Server-side request forgery",
+          "Open Redirect - Controlled testing"
+        ],
+        bg: "#7A5947"
+      },
+      {
+        title: "Production-Grade Safety",
+        items: [
+          "Safe Heuristics - Production-safe checks",
+          "Rate Limiting - Prevent overload",
+          "Audit Logging - Full activity trail",
+          "Target Allowlisting - Mandatory validation",
+          "Time Windows - Scheduled scans"
+        ],
+        bg: "#6F4E37"
+      },
+      {
+        title: "Advanced Tool Integration",
+        items: [
+          "SQLMap Integration - Safe automated testing",
+          "Human Approval Workflow - Mandatory authorization",
+          "Isolated Execution - Jump host operations",
+          "Evidence Handling - Secure collection & sanitization"
+        ],
+        bg: "#593127"
+      }
+    ].map((section, idx) => (
+      <div 
+        key={idx} 
+        style={{ backgroundColor: section.bg }}
+        className="rounded-xl shadow-lg p-6 hover:shadow-2xl transition border-2 border-[#A95A3C]"
+      >
+        <h2 className="text-2xl font-bold text-[#F0E4D7] mb-4">{section.title}</h2>
+        <ul className="space-y-2 text-[#E6D7C1] text-sm">
+          {section.items.map((item, i) => <li key={i}>• {item}</li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
 
-    {/* Left: feature list */}
+  {/* Safety & Tools Section */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+    {/* Safety Cards */}
     <div className="space-y-4">
-      {/* item */}
-      <div className="flex gap-4 items-start bg-[#5C3B2E] p-4 rounded-lg border border-transparent hover:border-[#A95A3C] transition">
-        <div className="flex-none w-10 h-10 bg-[#3E1F1F] rounded-full flex items-center justify-center">
-          {/* Shield */}
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#F0E4D7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 2l9 4.5v5.5c0 5-3 9-9 9s-9-4-9-9V6.5L12 2z" />
-          </svg>
+      {["Safe Heuristics", "Rate Limiting", "Audit Logging", "Target Allowlisting", "Time Windows"].map((item, i) => (
+        <div key={i} className="bg-[#6F4E37] p-5 rounded-xl hover:bg-[#7A5947] transition border-2 border-[#A95A3C]">
+          <h3 className="font-semibold text-[#F0E4D7]">{item}</h3>
+          <p className="text-[#E6D7C1] text-sm mt-1">Explanation for {item.toLowerCase()} ensuring production safety.</p>
         </div>
-        <div className="flex-1">
-          <div className="flex items-center justify-between">
-            <h4 className="font-semibold text-[#F0E4D7]">Safe Heuristics</h4>
-            <span className="text-xs text-[#E6D7C1]">Designed for production</span>
-          </div>
-          <p className="text-[#E6D7C1] text-sm mt-1">Checks tuned to avoid service disruption and false positives — safe defaults only.</p>
-        </div>
-      </div>
-
-      <div className="flex gap-4 items-start bg-[#5C3B2E] p-4 rounded-lg border border-transparent hover:border-[#A95A3C] transition">
-        <div className="flex-none w-10 h-10 bg-[#4B2E2E] rounded-full flex items-center justify-center">
-          {/* Rate limit */}
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#F0E4D7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center justify-between">
-            <h4 className="font-semibold text-[#F0E4D7]">Rate Limiting</h4>
-            <span className="text-xs text-[#E6D7C1]">Prevent overload</span>
-          </div>
-          <p className="text-[#E6D7C1] text-sm mt-1">Configurable limits per target, concurrency controls, and backoff strategies.</p>
-        </div>
-      </div>
-
-      <div className="flex gap-4 items-start bg-[#5C3B2E] p-4 rounded-lg border border-transparent hover:border-[#A95A3C] transition">
-        <div className="flex-none w-10 h-10 bg-[#3B2A2A] rounded-full flex items-center justify-center">
-          {/* Audit */}
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#F0E4D7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l2 2" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center justify-between">
-            <h4 className="font-semibold text-[#F0E4D7]">Audit Logging</h4>
-            <span className="text-xs text-[#E6D7C1]">Immutable activity trail</span>
-          </div>
-          <p className="text-[#E6D7C1] text-sm mt-1">Full evidence of scan actions, who approved them, and timestamps for compliance audits.</p>
-        </div>
-      </div>
-
-      {/* Repeat the same style for the remaining features */}
+      ))}
     </div>
 
-    {/* Right: Advanced tool integration panel */}
-    <div className="bg-[#593127] p-5 rounded-lg border border-[#4B2E2E]">
-      <div className="flex items-start justify-between">
-        <div>
-          <h3 className="text-xl font-semibold text-[#F0E4D7]">Advanced Tool Integration</h3>
-          <p className="text-[#E6D7C1] text-sm mt-1">Controlled access to advanced testers and secure evidence handling workflows.</p>
-        </div>
-        <div className="text-xs text-[#CFC3B0]">v1.2</div>
-      </div>
-
-      <div className="mt-4 space-y-3">
-        {/* Each details panel */}
-        <details className="bg-[#4B2E2E] p-3 rounded-md open:ring-2 open:ring-[#A95A3C]">
-          <summary className="flex items-center justify-between cursor-pointer">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 bg-[#3B2A2A] rounded-full flex items-center justify-center">
-                {/* Icon */}
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[#F0E4D7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 2L4 6v6c0 5 3 9 8 9s8-4 8-9V6l-8-4z" />
-                </svg>
-              </div>
-              <div>
-                <div className="font-medium text-[#F0E4D7]">SQLMap Integration</div>
-                <div className="text-xs text-[#CFC3B0]">Production-safe automated SQL testing</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button className="px-3 py-1 bg-transparent border border-[#4B2E2E] text-xs rounded-md text-[#E6D7C1] hover:bg-[#A95A3C]">Docs</button>
-              <span className="px-2 py-0.5 bg-[#A95A3C] rounded-full text-xs text-black font-medium">Requires Approval</span>
-            </div>
-          </summary>
-
-          <div className="mt-3 text-sm text-[#E6D7C1]">
-            Runs in isolated jump-hosts with sanitized outputs. All runs require explicit human approval; results are stored encrypted and redacted for PII.
-          </div>
+    {/* Tools Accordion */}
+    <div className="space-y-3">
+      {["SQLMap Integration", "Human Approval Workflow", "Isolated Execution", "Evidence Handling"].map((tool, i) => (
+        <details key={i} className="bg-[#593127] p-4 rounded-xl open:ring-2 open:ring-[#A95A3C] border-2 border-[#A95A3C]">
+          <summary className="cursor-pointer font-semibold text-[#F0E4D7]">{tool}</summary>
+          <p className="mt-2 text-[#E6D7C1] text-sm">Safe execution, human approval, and encrypted evidence storage.</p>
         </details>
-
-        {/* Repeat for the remaining details */}
-      </div>
+      ))}
     </div>
   </div>
 
-  <footer className="mt-6 text-sm text-[#CFC3B0]">
-    <div>Recommended: schedule advanced tool runs during approved maintenance windows and require 2-step human approval for any automated exploit checks.</div>
-  </footer>
-</section>
 
-       <section className="rounded-lg shadow-xl p-8 bg-[#4B2E2E] text-white">
+
+  {/* News Section */}
+ <div className="bg-[#6F4E37] rounded-xl shadow-lg p-8 text-white">
   <h2 className="text-3xl font-bold mb-6 text-center text-[#F0E4D7]">Security News & Alerts</h2>
-
+  
   <div className="overflow-x-auto">
-    <table className="min-w-full table-auto border-collapse">
-      <thead className="bg-[#6B3A2A]">
+    <table className="min-w-full text-left border-collapse">
+      <thead className="bg-[#7A5947]">
         <tr>
-          <th className="px-6 py-3 text-left text-sm font-semibold">Type</th>
-          <th className="px-6 py-3 text-left text-sm font-semibold">Title</th>
-          <th className="px-6 py-3 text-left text-sm font-semibold">Severity</th>
-          <th className="px-6 py-3 text-left text-sm font-semibold">Date</th>
-          <th className="px-6 py-3 text-left text-sm font-semibold">Action</th>
+          {["Type", "Title", "Severity", "Date", "Action"].map((th, i) => (
+            <th key={i} className="px-6 py-3 text-sm font-semibold">{th}</th>
+          ))}
         </tr>
       </thead>
       <tbody className="divide-y divide-[#5A2D1D]">
         <tr className="hover:bg-[#593127] transition-colors">
+          <td className="px-6 py-4 text-[#E6D7C1]">Firewall</td>
+          <td className="px-6 py-4 font-medium text-[#F0E4D7]">Critical Cisco Vulnerabilities</td>
+          <td className="px-6 py-4"><span className="px-2 py-1 bg-red-700 rounded-full text-xs text-white">Critical</span></td>
+          <td className="px-6 py-4 text-[#E6D7C1]">Oct 3, 2025</td>
           <td className="px-6 py-4">
-            {/* Shield icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 2l9 4.5v5.5c0 5-3 9-9 9s-9-4-9-9V6.5L12 2z" />
-            </svg>
-          </td>
-          <td className="px-6 py-4 font-medium text-[#F0E4D7]">Critical Cisco Firewall Vulnerabilities Discovered</td>
-          <td className="px-6 py-4">
-            <span className="px-2 py-1 bg-red-700 text-white text-xs rounded-full">Critical</span>
-          </td>
-          <td className="px-6 py-4 text-sm text-[#E6D7C1]">Oct 3, 2025</td>
-          <td className="px-6 py-4">
-            <a href="https://www.techradar.com/pro/security/around-50-000-cisco-firewalls-are-vulnerable-to-attack-so-patch-now" target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-[#A95A3C] hover:bg-[#B66A4C] rounded-md text-white text-sm transition">
-              View Article
-            </a>
+            <a href="#" className="px-3 py-1 bg-[#A95A3C] hover:bg-[#B66A4C] rounded-md text-white text-sm transition">View</a>
           </td>
         </tr>
 
         <tr className="hover:bg-[#593127] transition-colors">
+          <td className="px-6 py-4 text-[#E6D7C1]">Data Breach</td>
+          <td className="px-6 py-4 font-medium text-[#F0E4D7]">Kido Nursery Data Breach: 8,000 Children Affected</td>
+          <td className="px-6 py-4"><span className="px-2 py-1 bg-orange-700 rounded-full text-xs text-white">High</span></td>
+          <td className="px-6 py-4 text-[#E6D7C1]">Oct 2, 2025</td>
           <td className="px-6 py-4">
-            {/* Network icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h3m0 0a3 3 0 106 0m0 0h3m-6 0V6m0 12v-6" />
-            </svg>
-          </td>
-          <td className="px-6 py-4 font-medium text-[#F0E4D7]">Kido Nursery Data Breach: 8,000 Children's Data Stolen</td>
-          <td className="px-6 py-4">
-            <span className="px-2 py-1 bg-orange-700 text-white text-xs rounded-full">High</span>
-          </td>
-          <td className="px-6 py-4 text-sm text-[#E6D7C1]">Oct 2, 2025</td>
-          <td className="px-6 py-4">
-            <a href="https://www.theguardian.com/technology/2025/oct/02/kido-nursery-hackers-say-they-have-deleted-stolen-data" target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-[#A95A3C] hover:bg-[#B66A4C] rounded-md text-white text-sm transition">
-              View Article
-            </a>
+            <a href="#" className="px-3 py-1 bg-[#A95A3C] hover:bg-[#B66A4C] rounded-md text-white text-sm transition">View</a>
           </td>
         </tr>
 
         <tr className="hover:bg-[#593127] transition-colors">
-          <td className="px-6 py-4">
-            {/* Warning icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M2.458 12l8.042-8.042a1.5 1.5 0 012.122 0L21.542 12a1.5 1.5 0 010 2.122L12.622 22.164a1.5 1.5 0 01-2.122 0L2.458 14.122a1.5 1.5 0 010-2.122z" />
-            </svg>
-          </td>
+          <td className="px-6 py-4 text-[#E6D7C1]">Malware</td>
           <td className="px-6 py-4 font-medium text-[#F0E4D7]">China-Linked Group Deploys New Malware</td>
+          <td className="px-6 py-4"><span className="px-2 py-1 bg-yellow-700 rounded-full text-xs text-white">Medium</span></td>
+          <td className="px-6 py-4 text-[#E6D7C1]">Oct 1, 2025</td>
           <td className="px-6 py-4">
-            <span className="px-2 py-1 bg-yellow-700 text-white text-xs rounded-full">Medium</span>
-          </td>
-          <td className="px-6 py-4 text-sm text-[#E6D7C1]">Oct 1, 2025</td>
-          <td className="px-6 py-4">
-            <a href="https://thehackernews.com/2025/09/phantom-taurus-new-china-linked-hacker.html" target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-[#A95A3C] hover:bg-[#B66A4C] rounded-md text-white text-sm transition">
-              View Article
-            </a>
+            <a href="#" className="px-3 py-1 bg-[#A95A3C] hover:bg-[#B66A4C] rounded-md text-white text-sm transition">View</a>
           </td>
         </tr>
 
         <tr className="hover:bg-[#593127] transition-colors">
+          <td className="px-6 py-4 text-[#E6D7C1]">AI Security</td>
+          <td className="px-6 py-4 font-medium text-[#F0E4D7]">AI Threats Escalate Amid Budget Cuts</td>
+          <td className="px-6 py-4"><span className="px-2 py-1 bg-yellow-700 rounded-full text-xs text-white">Medium</span></td>
+          <td className="px-6 py-4 text-[#E6D7C1]">Oct 1, 2025</td>
           <td className="px-6 py-4">
-            {/* Robot/AI icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 14v4m0 0v2m0-2h2m-2 0H10m4-10a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          </td>
-          <td className="px-6 py-4 font-medium text-[#F0E4D7]">AI Security Threats Escalate Amidst Budget Cuts</td>
-          <td className="px-6 py-4">
-            <span className="px-2 py-1 bg-yellow-700 text-white text-xs rounded-full">Medium</span>
-          </td>
-          <td className="px-6 py-4 text-sm text-[#E6D7C1]">Oct 1, 2025</td>
-          <td className="px-6 py-4">
-            <a href="https://www.rbcwealthmanagement.com/en-asia/insights/ais-big-leaps-in-2025" target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-[#A95A3C] hover:bg-[#B66A4C] rounded-md text-white text-sm transition">
-              View Article
-            </a>
+            <a href="#" className="px-3 py-1 bg-[#A95A3C] hover:bg-[#B66A4C] rounded-md text-white text-sm transition">View</a>
           </td>
         </tr>
+
+        <tr className="hover:bg-[#593127] transition-colors">
+          <td className="px-6 py-4 text-[#E6D7C1]">Web App</td>
+          <td className="px-6 py-4 font-medium text-[#F0E4D7]">New XSS Vulnerability in Popular CMS</td>
+          <td className="px-6 py-4"><span className="px-2 py-1 bg-orange-700 rounded-full text-xs text-white">High</span></td>
+          <td className="px-6 py-4 text-[#E6D7C1]">Sep 30, 2025</td>
+          <td className="px-6 py-4">
+            <a href="#" className="px-3 py-1 bg-[#A95A3C] hover:bg-[#B66A4C] rounded-md text-white text-sm transition">View</a>
+          </td>
+        </tr>
+
       </tbody>
     </table>
   </div>
 
-  <div className="mt-6 bg-[#5C3B2E] p-4 rounded-lg text-center shadow-inner">
-    <p className="text-[#E6D7C1]">
-      Staying updated on security threats protects your data, systems, and business reputation. Always monitor alerts and act promptly.
-    </p>
+  <div className="mt-6 bg-[#593127] p-4 rounded-lg text-center text-[#E6D7C1]">
+    Stay updated on security threats to protect your systems and reputation.
   </div>
+</div>
+
+
 </section>
+
+
 
 
 
