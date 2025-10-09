@@ -21,14 +21,18 @@ import ContactPage from "./pages/ContactPage"; // Keep from frontend branch
 // Components
 import Navbar from "./components/Navbar";
 
-const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
+const AppContent = ({ isLoggedIn, setIsLoggedIn, user }) => {
   const location = useLocation();
   const hideNavbar = location.pathname === "/login";
 
   return (
     <>
       {!hideNavbar && (
-        <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        <Navbar
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          user={user}
+        />
       )}
       <Routes>
         {/* 🌍 Public routes */}
@@ -39,8 +43,8 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
           element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
         />
         <Route path="/services" element={<Services />} />
-        <Route path="/contact" element={<ContactPage />} /> {/* Added contact */}
-
+        <Route path="/contact" element={<ContactPage />} />{" "}
+        {/* Added contact */}
         {/* 🔒 Protected routes */}
         <Route
           path="/scanners"
@@ -73,12 +77,17 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
-  // Load login state from localStorage on first render
+  // Load login state and user from localStorage on first render
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
     if (token) {
       setIsLoggedIn(true);
+      if (userData) {
+        setUser(JSON.parse(userData));
+      }
     }
   }, []);
 
@@ -90,7 +99,11 @@ const App = () => {
 
   return (
     <Router>
-      <AppContent isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <AppContent
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
     </Router>
   );
 };

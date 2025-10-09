@@ -63,7 +63,6 @@ const WebAppsScannerPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-   
       <div className="max-w-4xl mx-auto mt-20 px-6">
         <h1 className="text-4xl font-bold text-center mb-6">
           Web Applications Scanner

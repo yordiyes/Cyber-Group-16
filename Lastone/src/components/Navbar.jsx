@@ -75,7 +75,9 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, user }) => {
                   >
                     <div className="px-4 py-2 border-b border-[#6F4E37]">
                       <p className="font-semibold">Name:</p>
-                      <p className="text-sm text-[#E6D7C1]">{user?.name}</p>
+                      <p className="text-sm text-[#E6D7C1]">
+                        {user?.full_name}
+                      </p>
                     </div>
                     <div className="px-4 py-2 border-b border-[#6F4E37]">
                       <p className="font-semibold">Email:</p>
@@ -128,7 +130,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, user }) => {
                 {profileOpen && (
                   <div className="bg-[#5C3A21] px-6 py-2 text-sm text-[#E6D7C1]">
                     <p>
-                      <strong>Name:</strong> {user?.name}
+                      <strong>Name:</strong> {user?.full_name}
                     </p>
                     <p>
                       <strong>Email:</strong> {user?.email}

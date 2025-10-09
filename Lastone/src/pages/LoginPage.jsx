@@ -32,11 +32,12 @@ const LoginPage = ({ setIsLoggedIn }) => {
     e.preventDefault();
     try {
       const response = await apiClient.post("/auth/login", {
-        username: email,
+        username: email, // Using email as username for now
         password: password,
       });
 
       localStorage.setItem("token", response.data.access_token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       setIsLoggedIn(true);
 
       setSuccessMessage("Login successful! Redirecting...");
@@ -53,27 +54,33 @@ const LoginPage = ({ setIsLoggedIn }) => {
     }
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (!name || !email || !password) {
       alert("Please fill in all fields!");
       return;
     }
-    const userExists = users.find((u) => u.email === email);
-    if (userExists) {
-      alert("User already exists!");
-      return;
+    try {
+      const response = await apiClient.post("/auth/register", {
+        username: email, // Using email as username
+        email: email,
+        full_name: name,
+        password: password,
+      });
+
+      setSuccessMessage("Account created successfully! Please login.");
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+        setIsLogin(true);
+      }, 2000);
+      setName("");
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      console.error("Signup error:", error.response || error);
+      alert(error.response?.data?.detail || "Registration failed!");
     }
-    setUsers([...users, { name, email, password }]);
-    setSuccessMessage("Account created successfully!");
-    setShowSuccess(true);
-    setTimeout(() => {
-      setShowSuccess(false);
-      setIsLogin(true);
-    }, 2000);
-    setName("");
-    setEmail("");
-    setPassword("");
   };
 
   return (
