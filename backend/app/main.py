@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import scan, auth, reports
+from app.api import scan, auth, reports, ecommerce_scan, banking_scan
 
 app = FastAPI()
 
@@ -9,9 +9,12 @@ async def root():
     return {"message": "Vulnerability Scanner Backend is running"}
 
 # Include routers
-app.include_router(scan.router, prefix="/api/scan", tags=["Scan"])
 app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
 app.include_router(reports.router, prefix="/api/reports", tags=["Reports"])
+app.include_router(scan.router, prefix="/api/scan/web", tags=["Web Scan"])
+app.include_router(ecommerce_scan.router, prefix="/api/scan/ecommerce", tags=["E-commerce Scan"])
+app.include_router(banking_scan.router, prefix="/api/scan/banking", tags=["Banking Scan"])
+
 
 # Allowed origins
 origins = [
