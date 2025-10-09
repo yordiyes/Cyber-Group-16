@@ -9,7 +9,7 @@ const infoTexts = [
   "Empowering developers to build secure apps.",
 ];
 
-const LoginPage = ({ setIsLoggedIn }) => {
+const LoginPage = ({ setIsLoggedIn, setUser }) => {
   const navigate = useNavigate(); // ✅ Add this line
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -39,6 +39,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       setIsLoggedIn(true);
+      setUser(response.data.user);
 
       setSuccessMessage("Login successful! Redirecting...");
       setShowSuccess(true);

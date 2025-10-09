@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn, user }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn, user, setUser, handleLogout }) => {
   const navigate = useNavigate();
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
+  const logout = () => {
+    handleLogout();
     setProfileOpen(false);
     navigate("/login");
   };
@@ -84,7 +83,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, user }) => {
                       <p className="text-sm text-[#E6D7C1]">{user?.email}</p>
                     </div>
                     <button
-                      onClick={handleLogout}
+                      onClick={logout}
                       className="w-full text-left px-4 py-2 hover:bg-[#7A5031] transition text-red-300"
                     >
                       Logout
@@ -130,13 +129,13 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, user }) => {
                 {profileOpen && (
                   <div className="bg-[#5C3A21] px-6 py-2 text-sm text-[#E6D7C1]">
                     <p>
-                      <strong>Name:</strong> {localStorage.getItem("full_name")}
+                      <strong>Name:</strong> {user?.full_name}
                     </p>
                     <p>
-                      <strong>Email:</strong> {localStorage.getItem("username")}
+                      <strong>Email:</strong> {user?.email}
                     </p>
                     <button
-                      onClick={handleLogout}
+                      onClick={logout}
                       className="mt-2 text-red-300 hover:underline"
                     >
                       Logout

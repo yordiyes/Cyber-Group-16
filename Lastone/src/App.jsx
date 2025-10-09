@@ -21,7 +21,13 @@ import ContactPage from "./pages/ContactPage"; // Keep from frontend branch
 // Components
 import Navbar from "./components/Navbar";
 
-const AppContent = ({ isLoggedIn, setIsLoggedIn, user }) => {
+const AppContent = ({
+  isLoggedIn,
+  setIsLoggedIn,
+  user,
+  setUser,
+  handleLogout,
+}) => {
   const location = useLocation();
   const hideNavbar = location.pathname === "/login";
 
@@ -32,6 +38,8 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn, user }) => {
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
           user={user}
+          setUser={setUser}
+          handleLogout={handleLogout}
         />
       )}
       <Routes>
@@ -40,7 +48,9 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn, user }) => {
         <Route path="/home" element={<HomePage />} />
         <Route
           path="/login"
-          element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
+          element={
+            <LoginPage setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
+          }
         />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<ContactPage />} />{" "}
@@ -94,7 +104,9 @@ const App = () => {
   // Logout handler
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
+    setUser(null);
   };
 
   return (
@@ -103,6 +115,8 @@ const App = () => {
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
         user={user}
+        setUser={setUser}
+        handleLogout={handleLogout}
       />
     </Router>
   );
