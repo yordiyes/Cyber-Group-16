@@ -56,9 +56,9 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
         const decoded = decodeJWT(token);
         if (decoded) {
           userData = {
-            username: decoded.username,
+            username: decoded.username || decoded.email,
             email: decoded.email,
-            full_name: decoded.full_name
+            full_name: decoded.full_name || decoded.email || decoded.username
           };
         }
       }

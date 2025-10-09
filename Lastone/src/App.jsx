@@ -96,7 +96,11 @@ const App = () => {
     if (token) {
       try {
         const parsedUser = userData ? JSON.parse(userData) : null;
-        if (parsedUser && parsedUser.email && parsedUser.full_name) {
+        if (parsedUser && parsedUser.email) {
+          // Ensure full_name has a value
+          if (!parsedUser.full_name) {
+            parsedUser.full_name = parsedUser.email;
+          }
           setIsLoggedIn(true);
           setUser(parsedUser);
         } else {
