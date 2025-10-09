@@ -2,6 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../utils/apiClient";
 
+// Function to decode JWT payload without verification
+const decodeJWT = (token) => {
+  try {
+    const payload = token.split('.')[1];
+    const decoded = JSON.parse(atob(payload));
+    return decoded;
+  } catch (error) {
+    console.error("Error decoding JWT:", error);
+    return null;
+  }
+};
+
 const infoTexts = [
   "Scan your web apps for vulnerabilities in seconds.",
   "Identify security issues before attackers do.",
@@ -36,10 +48,25 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
         password: password,
       });
 
-      localStorage.setItem("token", response.data.access_token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      const token = response.data.access_token;
+      let userData = response.data.user;
+
+      // If user not in response, decode from token
+      if (!userData) {
+        const decoded = decodeJWT(token);
+        if (decoded) {
+          userData = {
+            username: decoded.username,
+            email: decoded.email,
+            full_name: decoded.full_name
+          };
+        }
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(userData));
       setIsLoggedIn(true);
-      setUser(response.data.user);
+      setUser(userData);
 
       setSuccessMessage("Login successful! Redirecting...");
       setShowSuccess(true);
