@@ -94,9 +94,25 @@ const App = () => {
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
     if (token) {
-      setIsLoggedIn(true);
-      if (userData) {
-        setUser(JSON.parse(userData));
+      try {
+        const parsedUser = userData ? JSON.parse(userData) : null;
+        if (parsedUser && parsedUser.email && parsedUser.full_name) {
+          setIsLoggedIn(true);
+          setUser(parsedUser);
+        } else {
+          // Invalid user data, clear storage
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setIsLoggedIn(false);
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Error parsing user data from localStorage:", error);
+        // If user data is corrupted, clear it and logout
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setIsLoggedIn(false);
+        setUser(null);
       }
     }
   }, []);
