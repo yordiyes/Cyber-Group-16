@@ -12,3 +12,5 @@ class Report(BaseModel):
     status: str
     issues: int
     findings: List[Finding]
+    scanned_by: str
+    type: Optional[str] = None
