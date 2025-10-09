@@ -71,11 +71,14 @@ const ReportsPage = () => {
 
   // ✅ Prepare chart data
   const pieData = reports.length
-    ? [
-        { type: "High", value: 5 },
-        { type: "Medium", value: 10 },
-        { type: "Low", value: 7 },
-      ]
+    ? ["High", "Medium", "Low"].map((severity) => {
+        const count = reports.reduce((acc, report) => {
+          const issuesOfSeverity =
+            report.findings?.filter((f) => f.severity === severity).length || 0;
+          return acc + issuesOfSeverity;
+        }, 0);
+        return { type: severity, value: count };
+      })
     : [];
 
   const barData = reports.map((r) => ({
