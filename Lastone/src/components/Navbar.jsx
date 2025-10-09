@@ -130,10 +130,10 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, user }) => {
                 {profileOpen && (
                   <div className="bg-[#5C3A21] px-6 py-2 text-sm text-[#E6D7C1]">
                     <p>
-                      <strong>Name:</strong> {user?.full_name}
+                      <strong>Name:</strong> {localStorage.getItem("full_name")}
                     </p>
                     <p>
-                      <strong>Email:</strong> {user?.email}
+                      <strong>Email:</strong> {localStorage.getItem("username")}
                     </p>
                     <button
                       onClick={handleLogout}
