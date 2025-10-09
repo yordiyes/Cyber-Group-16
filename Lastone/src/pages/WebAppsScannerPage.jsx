@@ -51,7 +51,7 @@ const WebAppsScannerPage = () => {
     setScanResult(null);
 
     try {
-      const response = await apiClient.post("/scan", { url });
+      const response = await apiClient.post("/scan/web", { url });
       setScanResult(response.data);
     } catch (error) {
       console.error(error);
