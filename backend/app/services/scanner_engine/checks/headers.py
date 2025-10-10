@@ -9,12 +9,12 @@ def check_headers(url: str):
     try:
         r = httpx.get(url, timeout=7.0, follow_redirects=True)
     except Exception as e:
-        return [{"type": "Headers", "status": "error", "error": str(e), "target": url}]
+        return [{"type": "Headers", "status": "error", "severity": "Info", "error": str(e), "target": url}]
 
     findings = []
     # Report each header as an observation
     for k, v in r.headers.items():
-        findings.append({"type": "Header", "header": k, "value": v, "target": url})
+        findings.append({"type": "Header", "header": k, "value": v, "severity": "Info", "target": url})
 
     # Check some important security headers
     required = {
@@ -28,6 +28,6 @@ def check_headers(url: str):
     if missing:
         findings.append({"type": "Headers", "status": "missing-security-headers", "missing": missing, "severity": "Medium", "target": url})
     else:
-        findings.append({"type": "Headers", "status": "ok", "target": url})
+        findings.append({"type": "Headers", "status": "ok", "severity": "Info", "target": url})
 
     return findings

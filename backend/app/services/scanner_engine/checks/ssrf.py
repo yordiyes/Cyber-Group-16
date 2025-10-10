@@ -12,6 +12,6 @@ def check_ssrf(url: str):
         body = r.text.lower()
         indicators = ["connection refused", "could not connect", "127.0.0.1"]
         likely = any(i in body for i in indicators)
-        return {"type": "SSRF", "status": "possible" if likely else "safe", "target": url}
+        return {"type": "SSRF", "status": "possible" if likely else "safe", "severity": "High" if likely else "Info", "target": url}
     except Exception as e:
-        return {"type": "SSRF", "status": "error", "error": str(e), "target": url}
+        return {"type": "SSRF", "status": "error", "severity": "Info", "error": str(e), "target": url}

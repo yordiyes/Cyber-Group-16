@@ -12,6 +12,6 @@ def check_sqli(url: str):
         body = r.text.lower()
         heuristics = ["sql syntax", "mysql", "syntax error", "sqlstate", "pgsql"]
         likely = any(h in body for h in heuristics)
-        return {"type": "SQLi", "status": "vulnerable" if likely else "safe", "target": url}
+        return {"type": "SQLi", "status": "vulnerable" if likely else "safe", "severity": "High" if likely else "Info", "target": url}
     except Exception as e:
-        return {"type": "SQLi", "status": "error", "error": str(e), "target": url}
+        return {"type": "SQLi", "status": "error", "severity": "Info", "error": str(e), "target": url}

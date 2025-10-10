@@ -5,7 +5,7 @@ def check_xss(target: str) -> dict:
     try:
         res = requests.get(target, params={"q": payload}, timeout=5)
         if payload in res.text:
-            return {"type": "XSS", "status": "vulnerable", "target": target}
+            return {"type": "XSS", "status": "vulnerable", "severity": "High", "target": target}
     except Exception as e:
-        return {"type": "XSS", "status": "error", "error": str(e)}
-    return {"type": "XSS", "status": "safe", "target": target}
+        return {"type": "XSS", "status": "error", "severity": "Info", "error": str(e)}
+    return {"type": "XSS", "status": "safe", "severity": "Info", "target": target}

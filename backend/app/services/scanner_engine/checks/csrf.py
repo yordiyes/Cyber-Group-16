@@ -10,6 +10,6 @@ def check_csrf(url: str):
         text = r.text.lower()
         tokens = ["csrf", "csrf_token", "authenticity_token", "xsrf"]
         found = any(t in text for t in tokens)
-        return {"type": "CSRF", "status": "token-present" if found else "token-missing", "target": url}
+        return {"type": "CSRF", "status": "token-present" if found else "token-missing", "severity": "Info" if found else "Medium", "target": url}
     except Exception as e:
-        return {"type": "CSRF", "status": "error", "error": str(e), "target": url}
+        return {"type": "CSRF", "status": "error", "severity": "Info", "error": str(e), "target": url}

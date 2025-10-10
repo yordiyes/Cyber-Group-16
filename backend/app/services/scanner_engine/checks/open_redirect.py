@@ -10,6 +10,6 @@ def check_open_redirect(url: str):
         # if location header points to the 'evil' domain - redirection present
         parsed = urlparse(loc)
         is_redirect = parsed.netloc and "evil.example.com" in parsed.netloc
-        return {"type": "OpenRedirect", "status": "vulnerable" if is_redirect else "safe", "target": url}
+        return {"type": "OpenRedirect", "status": "vulnerable" if is_redirect else "safe", "severity": "Medium" if is_redirect else "Info", "target": url}
     except Exception as e:
-        return {"type": "OpenRedirect", "status": "error", "error": str(e), "target": url}
+        return {"type": "OpenRedirect", "status": "error", "severity": "Info", "error": str(e), "target": url}

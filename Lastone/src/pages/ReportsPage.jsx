@@ -142,14 +142,14 @@ const ReportsPage = () => {
 
   // ✅ Prepare chart data
   const pieData = reports.length
-    ? ["High", "Medium", "Low"].map((severity) => {
+    ? ["High", "Medium", "Low", "Info"].map((severity) => {
         const count = reports.reduce((acc, report) => {
           const issuesOfSeverity =
-            report.findings?.filter((f) => f.severity === severity).length || 0;
+            report.findings?.filter((f) => f.severity === severity && (f.status === "vulnerable" || f.status === "missing-security-headers" || f.status === "possible" || f.status === "token-missing")).length || 0;
           return acc + issuesOfSeverity;
         }, 0);
         return { type: severity, value: count };
-      })
+      }).filter(item => item.value > 0) // Only include severities with counts > 0
     : [];
 
   const barData = reports.map((r) => ({
