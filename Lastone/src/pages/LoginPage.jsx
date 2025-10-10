@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../utils/apiClient";
 
-// Function to decode JWT payload without verification
 const decodeJWT = (token) => {
   try {
-    const payload = token.split('.')[1];
+    const payload = token.split(".")[1];
     const decoded = JSON.parse(atob(payload));
     return decoded;
   } catch (error) {
@@ -22,7 +21,7 @@ const infoTexts = [
 ];
 
 const LoginPage = ({ setIsLoggedIn, setUser }) => {
-  const navigate = useNavigate(); // ✅ Add this line
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,8 +29,7 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
   const [currentInfo, setCurrentInfo] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-
-  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false); // ✅ new state
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,23 +40,23 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true); // ✅ start loading
     try {
       const response = await apiClient.post("/auth/login", {
-        username: email, // Using email as username for now
+        username: email,
         password: password,
       });
 
       const token = response.data.access_token;
       let userData = response.data.user;
 
-      // If user not in response, decode from token
       if (!userData) {
         const decoded = decodeJWT(token);
         if (decoded) {
           userData = {
             username: decoded.username,
             email: decoded.email,
-            full_name: decoded.full_name
+            full_name: decoded.full_name,
           };
         }
       }
@@ -71,7 +69,6 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
       setSuccessMessage("Login successful! Redirecting...");
       setShowSuccess(true);
 
-      // ✅ Navigate after short delay
       setTimeout(() => {
         setShowSuccess(false);
         navigate("/home");
@@ -79,6 +76,8 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
     } catch (error) {
       console.error("Login error:", error.response || error);
       alert("Invalid credentials!");
+    } finally {
+      setLoading(false); // ✅ stop loading
     }
   };
 
@@ -88,9 +87,10 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
       alert("Please fill in all fields!");
       return;
     }
+    setLoading(true); // ✅ start loading
     try {
-      const response = await apiClient.post("/auth/register", {
-        username: email, // Using email as username
+      await apiClient.post("/auth/register", {
+        username: email,
         email: email,
         full_name: name,
         password: password,
@@ -108,6 +108,8 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
     } catch (error) {
       console.error("Signup error:", error.response || error);
       alert(error.response?.data?.detail || "Registration failed!");
+    } finally {
+      setLoading(false); // ✅ stop loading
     }
   };
 
@@ -138,13 +140,6 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
           className="w-48 h-48 mt-4 z-10"
           style={{ animation: "floatHero 6s ease-in-out infinite" }}
         />
-        <style>{`
-          @keyframes floatHero {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-          }
-        `}</style>
       </div>
 
       {/* Right form panel */}
@@ -159,6 +154,7 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
                   ? "border-b-4 border-yellow-500 text-yellow-700"
                   : "text-gray-600 hover:text-yellow-700"
               }`}
+              disabled={loading}
             >
               Login
             </button>
@@ -169,6 +165,7 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
                   ? "border-b-4 border-yellow-500 text-yellow-700"
                   : "text-gray-600 hover:text-yellow-700"
               }`}
+              disabled={loading}
             >
               Sign Up
             </button>
@@ -190,6 +187,7 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
                   placeholder="Your full name"
                   className="w-full p-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
                   required
+                  disabled={loading}
                 />
               </div>
             )}
@@ -204,6 +202,7 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
                 placeholder="Enter your email"
                 className="w-full p-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
                 required
+                disabled={loading}
               />
             </div>
             <div>
@@ -217,13 +216,25 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
                 placeholder="Enter your password"
                 className="w-full p-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
                 required
+                disabled={loading}
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-yellow-500 text-[#4B2E2A] font-semibold py-3 rounded-lg hover:bg-yellow-600 transition"
+              disabled={loading}
+              className={`w-full font-semibold py-3 rounded-lg transition ${
+                loading
+                  ? "bg-yellow-400 cursor-not-allowed"
+                  : "bg-yellow-500 hover:bg-yellow-600 text-[#4B2E2A]"
+              }`}
             >
-              {isLogin ? "Login" : "Sign Up"}
+              {loading
+                ? isLogin
+                  ? "Logging in..."
+                  : "Signing up..."
+                : isLogin
+                ? "Login"
+                : "Sign Up"}
             </button>
           </form>
 
