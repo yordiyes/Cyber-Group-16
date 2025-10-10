@@ -152,6 +152,7 @@ const ReportsPage = () => {
       }).filter(item => item.value > 0) // Only include severities with counts > 0
     : [];
 
+
   const barData = reports.map((r) => ({
     type: r.target,
     value: r.issues,
