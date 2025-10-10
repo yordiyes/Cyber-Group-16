@@ -1,10 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import apiClient from "../utils/apiClient"; // axios instance with baseURL + token handling
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn, user, setUser, handleLogout }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn, handleLogout }) => {
   const navigate = useNavigate();
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // ✅ Fetch user info once when logged in
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await apiClient.get("/auth/me");
+        setUser(res.data);
+      } catch (error) {
+        console.error("Failed to fetch user info:", error);
+      }
+    };
+    if (isLoggedIn) fetchUser();
+  }, [isLoggedIn]);
 
   const logout = () => {
     handleLogout();
@@ -75,12 +90,14 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, user, setUser, handleLogout }) => {
                     <div className="px-4 py-2 border-b border-[#6F4E37]">
                       <p className="font-semibold">Name:</p>
                       <p className="text-sm text-[#E6D7C1]">
-                        {user?.full_name}
+                        {user?.full_name || "Loading..."}
                       </p>
                     </div>
                     <div className="px-4 py-2 border-b border-[#6F4E37]">
                       <p className="font-semibold">Email:</p>
-                      <p className="text-sm text-[#E6D7C1]">{user?.email}</p>
+                      <p className="text-sm text-[#E6D7C1]">
+                        {user?.email || "Loading..."}
+                      </p>
                     </div>
                     <button
                       onClick={logout}
@@ -129,10 +146,10 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, user, setUser, handleLogout }) => {
                 {profileOpen && (
                   <div className="bg-[#5C3A21] px-6 py-2 text-sm text-[#E6D7C1]">
                     <p>
-                      <strong>Name:</strong> {user?.full_name}
+                      <strong>Name:</strong> {user?.full_name || "Loading..."}
                     </p>
                     <p>
-                      <strong>Email:</strong> {user?.email}
+                      <strong>Email:</strong> {user?.email || "Loading..."}
                     </p>
                     <button
                       onClick={logout}
