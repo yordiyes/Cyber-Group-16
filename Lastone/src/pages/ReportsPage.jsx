@@ -142,15 +142,17 @@ const ReportsPage = () => {
 
   // ✅ Prepare chart data
   const pieData = reports.length
-    ? ["High", "Medium", "Low"].map((severity) => {
-        const count = reports.reduce((acc, report) => {
-          const issuesOfSeverity =
-            report.findings?.filter((f) => f.severity === severity).length || 0;
-          return acc + issuesOfSeverity;
-        }, 0);
-        return { type: severity, value: count };
-      })
-    : [];
+  ? ["High", "Medium", "Low"].map((severity) => {
+      const count = reports.reduce((acc, report) => {
+        const issuesOfSeverity = report.findings
+          ? report.findings.filter((f) => f.severity?.toLowerCase() === severity.toLowerCase()).length
+          : 0;
+        return acc + issuesOfSeverity;
+      }, 0);
+      return { type: severity, value: count };
+    })
+  : [];
+
 
   const barData = reports.map((r) => ({
     type: r.target,
